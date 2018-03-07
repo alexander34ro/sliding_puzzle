@@ -1,0 +1,16 @@
+development:
+  adapter:    postgresql
+  host:       localhost
+  database:   sliding_development
+  timeout:    5000
+  encoding:   utf8
+  pool:       5
+  reconnect:  true
+
+test:
+  adapter:    postgresql
+  host:       localhost
+  database:   sliding_test
+  timeout:    5000
+  encoding:   utf8
+  pool:       5

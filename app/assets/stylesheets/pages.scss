@@ -1,0 +1,23 @@
+@import 'bootstrap';
+@import 'font-awesome';
+
+#puzzle-container {
+  width: 642px;
+  border: 1px solid #666;
+}
+
+.puzzle-piece {
+  background: #fed;
+  display: inline-block;
+  border: 2px solid #666;
+  font-size: 2em;
+  text-align: center;
+  color: #333;
+  &.puzzle-piece-blank {
+    background: #666;
+  }
+}
+
+input {
+  padding: 2px 8px;
+}
