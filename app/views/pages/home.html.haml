@@ -1,0 +1,26 @@
+.p-5
+  .row
+    .col-lg-5.col-md-12.p-3
+      %h1.pt-5.pb-5 Sliding puzzle
+      .col-xs-12
+        %h6.d-inline-block.m-0= label_tag :puzzle_size, "Puzzle size: "
+        &nbsp;
+        = number_field_tag :puzzle_size, value = 3, min: 2, max: 24
+      .col-xs-12.pt-3
+        %h6.d-inline-block.m-0= label_tag :shuffle_steps, "Shuffle steps: "
+        &nbsp;
+        = number_field_tag :shuffle_steps, value = 10, min: 1, max: 1000
+      .btn.btn-dark.my-4#generate Generate puzzle
+      #data-container.mt-4.text-left
+        %h5
+          Steps:
+          %span#steps
+        %h5
+          Moves:
+          %span#moves
+      .btn-group.pt-2
+        .btn.btn-dark#solve-bfs Solve BFS
+        .btn.btn-dark#solve-gbfs Solve Greedy
+    .col-lg-7.col-md-12.p-3
+      #puzzle-container
+            
