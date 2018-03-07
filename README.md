@@ -1,24 +1,25 @@
-# README
+# Sliding Puzzle with Dynamic Short-Term memory
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+It is a Rails 5.1 app with Ruby 2.4
 
-Things you may want to cover:
+## Running on your Machine
 
-* Ruby version
+Get the source:
 
-* System dependencies
+    $ git clone https://github.com/alexander34ro/sliding_puzzle.git
 
-* Configuration
+    $ cd sliding_puzzle
 
-* Database creation
+Then install the bundler gem:
 
-* Database initialization
+    $ gem install bundler
 
-* How to run the test suite
+Set up the other gems:
 
-* Services (job queues, cache servers, search engines, etc.)
+    $ bundle install
 
-* Deployment instructions
+Start the server:
 
-* ...
+    $ rails s
+
+Open <http://localhost:3000> in your browser to see the app running.
