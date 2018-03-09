@@ -253,7 +253,7 @@ function solveBFS() {
     }
 
     steps = steps + 1;
-    if (steps / stmSize > 500) stmSize = stmSize * 4;
+    if (steps / stmSize > nrPieces * 100) stmSize = stmSize * puzzleSize * 1.2;
   }
 
   // render
@@ -267,20 +267,85 @@ function solveBFS() {
   alert('Woo hooo! Always winning!');
 }
 
-function solveGBFS() {
-  var root = new Node(originalPieces, null);
-  var stack = [root];
-  var node;
-  do {
-    node = stack.pop();
-    console.log(node);
-    var states = nextSteps(node.state);
+function howFit(state) {
+  var fitness = 0;
+  var x, y;
+  var sx, sy;
+  for (var i = 0; i < state.length; i++) {
+    if (state[i] != 0) {
+      x = i % puzzleSize;
+      y = Math.floor(i / puzzleSize);
+      sx = (state[i] - 1) % puzzleSize;
+      sy = Math.floor((state[i] - 1) / puzzleSize);
+      fitness += Math.abs(x - sx) + Math.abs(y - sy);
+      //fitness += Math.abs(i + 1 - state[i]);
+    } else {
+      //fitness += Math.abs(i + 1 - state.length);
+    }
+  }
+  return fitness;
+}
 
-    //node.add(new state, state fitness);
-    //stack.push(new state) in order of fitness
-    steps = steps + 1;
-    updateStats();
-  } while (stack.length > 0 && !solved(node.state));
+function solveGBFS() {
+  var root = new Node(originalPieces, new Node([], null));
+  var stack = [root];
+  var node = new Node([], null);
+  //var stm = [];
+  //var stmSize = nrPieces / 1.5;
+  while (stack.length > 0 && !solved(node.state)) {
+    // get first in queue
+    node = stack.pop();
+    console.log('current node: ' + node.state);
+    //debugger;
+
+    if (!solved(node.state)) {
+      // generate possible moves, add them as children
+      var states = nextSteps(node.state);
+      for (var i = 0; i < states.length; i++) {
+        if (
+          states[i] != null &&
+          !arraysEqual(states[i], node.parent.state) &&
+          !isPreviousState(states[i], root)
+          //!isPreviousStateFromSTM(states[i], stm)
+        ) {
+          node.add(states[i], howFit(states[i]));
+        }
+      }
+
+      var aux;
+      for (var i = 0; i < node.children.length - 1; i++) {
+        for (var j = i; j < node.children.length; j++) {
+          if (node.children[i].weight < node.children[j].weight) {
+            aux = node.children[i];
+            node.children[i] = node.children[j];
+            node.children[j] = aux;
+          }
+        }
+      }
+
+      console.log(node.children);
+      // add children states to stack
+      for (var i = 0; i < node.children.length; i++) {
+        stack.push(node.children[i].node);
+        //if (stm.length == stmSize) stm.shift();
+        //stm.push(node.children[i].node.state);
+      }
+
+      steps = steps + 1;
+      //if (steps / stmSize > nrPieces * 100) stmSize = stmSize * puzzleSize * 1.2;
+    }
+  }
+
+  // render
+  renderPuzzle(node.state);
+  while (node.parent != null) {
+    moves = moves + 1;
+    node = node.parent;
+  }
+  moves = moves - 1;
+  updateStats();
+
+  alert('Woo hooo! Always winning!');
 }
 
 $('document').ready(function() {
