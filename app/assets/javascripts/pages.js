@@ -262,6 +262,7 @@ function solveBFS() {
     moves = moves + 1;
     node = node.parent;
   }
+  moves = moves - 1;
   updateStats();
 
   alert('Woo hooo! Always winning!');
